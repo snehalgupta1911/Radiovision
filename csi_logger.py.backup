@@ -163,73 +163,25 @@ def save_recording(root, label, rows):
     label_dir = os.path.join(root, label)
     idx = next_index(label_dir, label)
 
-    if not rows:
-        print(f"ERROR: No CSI frames captured for {label}.")
-        return None, None
-
-    # CSI packets can occasionally have different numbers of
-    # subcarriers. Find the most common frame length.
-    from collections import Counter
-
-    lengths = [len(r[1]) for r in rows]
-    length_counts = Counter(lengths)
-    target_n_sub = length_counts.most_common(1)[0][0]
-
-    print(f"CSI frame lengths: {dict(length_counts)}")
-    print(f"Using {target_n_sub} subcarriers.")
-
-    # Keep only frames matching the dominant CSI shape.
-    normalized_rows = [
-        r for r in rows
-        if len(r[1]) == target_n_sub
-    ]
-
-    if not normalized_rows:
-        print("ERROR: No CSI frames with a consistent shape.")
-        return None, None
-
-    amp = np.stack([r[1] for r in normalized_rows])
-    iq = np.stack([r[2] for r in normalized_rows])
-    rssi_mean = float(np.mean([r[3] for r in normalized_rows]))
+    amp = np.stack([r[1] for r in rows])           # (n_frames, n_sub)
+    iq = np.stack([r[2] for r in rows])            # (n_frames, n_sub, 2)
+    rssi_mean = float(np.mean([r[3] for r in rows]))
 
     amp_path = os.path.join(label_dir, f"{label}_{idx}.npy")
     raw_path = os.path.join(label_dir, f"{label}_{idx}_raw.npy")
-
     np.save(amp_path, amp)
     np.save(raw_path, iq)
 
     meta_path = os.path.join(root, "metadata.csv")
     new_file = not os.path.exists(meta_path)
-
     with open(meta_path, "a", newline="") as f:
         w = csv.writer(f)
-
         if new_file:
-            w.writerow([
-                "label",
-                "file",
-                "n_frames",
-                "n_sub",
-                "rssi_mean",
-                "timestamp"
-            ])
-
-        w.writerow([
-            label,
-            os.path.relpath(amp_path, root),
-            amp.shape[0],
-            amp.shape[1],
-            round(rssi_mean, 1),
-            time.strftime("%Y-%m-%d %H:%M:%S")
-        ])
-
-    discarded = len(rows) - len(normalized_rows)
-
-    print(
-        f"Saved {amp.shape[0]} frames "
-        f"({discarded} frames discarded due to different CSI length)."
-    )
-
+            w.writerow(["label", "file", "n_frames", "n_sub",
+                        "rssi_mean", "timestamp"])
+        w.writerow([label, os.path.relpath(amp_path, root), amp.shape[0],
+                    amp.shape[1], round(rssi_mean, 1),
+                    time.strftime("%Y-%m-%d %H:%M:%S")])
     return amp_path, amp.shape
 
 
