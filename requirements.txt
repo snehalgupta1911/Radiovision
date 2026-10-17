@@ -1,0 +1,6 @@
+numpy
+torch>=2.1
+opencv-python>=4.8
+mediapipe>=0.10.14
+pyserial>=3.5
+matplotlib>=3.7

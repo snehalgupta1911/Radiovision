@@ -1,0 +1,28 @@
+{
+  "gesture": "arm_side",
+  "label": 3,
+  "classes": [
+    "idle",
+    "hands_crossed",
+    "hands_up",
+    "arm_side",
+    "arm_forward"
+  ],
+  "session": "session1",
+  "subject": "parth",
+  "recording_id": "session1_arm_side_20261009_011053",
+  "created": "2026-10-09T01:11:03",
+  "duration_s": 10.06,
+  "csi_samples": 587,
+  "csi_rate_hz": 58.3,
+  "csi_subcarriers": 192,
+  "csi_malformed_total": 0,
+  "camera_frames": 151,
+  "pose_frames": 151,
+  "camera": 0,
+  "teacher": "full",
+  "serial_port": "/dev/cu.usbmodem1101",
+  "csi_first_t": 1062253.167531916,
+  "csi_last_t": 1062263.184674833,
+  "time_base": "time.monotonic() on the Mac, shared by CSI and camera"
+}

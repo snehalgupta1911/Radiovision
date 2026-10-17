@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# macOS and editors
+.DS_Store
+.vscode/
+
+# PlatformIO generated files
+.pio/
+**/.pio/
+
+# Training outputs
+runs/
+*.pth
+*.pt
+
+# Temporary recordings and generated reports
+*.npz
+*.mp4
+*.avi

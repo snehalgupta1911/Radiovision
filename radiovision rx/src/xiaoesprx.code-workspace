@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../../../xiaoesprx"
+		},
+		{
+			"name": "radiovision",
+			"path": "../../radiovision"
+		},
+		{
+			"name": "radiovision rx",
+			"path": ".."
+		}
+	],
+	"settings": {}
+}
